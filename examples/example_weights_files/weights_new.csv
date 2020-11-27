@@ -1,0 +1,5 @@
+# weight_unit, position_unit
+# weight, x, y, z
+g, mm
+900, 500, 0, 0, Coque
+2500, 600, 0., -400.00, Ballast

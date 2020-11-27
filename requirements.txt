@@ -1,0 +1,6 @@
+pytest
+pytest-cov
+coveralls
+# OCC (cannoy be install via pip install -r requirements.txt)
+# aocutils (installed by git clone + setup)
+# ydeos_units (installed by git clone + setup)

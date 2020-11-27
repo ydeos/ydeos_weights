@@ -1,0 +1,20 @@
+language: python
+python:
+  - "3.7"
+  - "3.8"
+install:
+  - pip install -r requirements.txt
+  - cd ..
+  - git clone http://github.com/ydeos/ydeos_units
+  - cd ydeos_units
+  - python setup.py install
+  - cd ..
+  - git clone http://github.com/guillaume-florent/aoc-utils
+  - cd aoc-utils
+  - python setup.py install
+  - cd ../ydeos_weights
+  # TODO : PythonOCC install
+script:
+  — pytest --cov=ydeos_weights
+after_success:
+  — coveralls
