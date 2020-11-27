@@ -1,6 +1,6 @@
 # coding: utf-8
 
-r"""Read and write for weights collections"""
+r"""Read and write for weights collections."""
 
 from typing import Optional
 from aocutils.geom.point import Point
@@ -9,9 +9,7 @@ from ydeos_weights.weights import WeightsCollection, Weight
 
 
 def load_from_file(filename: str, convert_position_to_meters: Optional[bool] = False) -> WeightsCollection:
-    r"""Load the weights collection from a file (with weight unit and position unit on the first line)
-
-    RESULTING WEIGHTS ARE KG POSITIONED IN METERS
+    r"""Load the weights collection from a weights file.
 
     Parameters
     ----------
@@ -65,7 +63,7 @@ def write_to_file(filename: str,
                   weights_collection: WeightsCollection,
                   weight_unit="kg",
                   distance_unit="m") -> None:
-    r"""Write a weights collection to a CSV file"""
+    r"""Write a weights collection to a CSV weights file."""
     with open(filename, 'w') as f:
         f.write("# weight_unit, position_unit\n")
         f.write("# weight, x, y, z, name\n")

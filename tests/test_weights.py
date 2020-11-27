@@ -1,14 +1,7 @@
 #!/usr/bin/python
 # coding: utf-8
 
-r"""test_weights.py
-
-Summary
--------
-
-Tests for the _weights module
-
-"""
+r"""Tests for the weights module."""
 
 import pytest
 from OCC.Core.BRepPrimAPI import BRepPrimAPI_MakeBox
@@ -32,10 +25,9 @@ def test_total_weight():
 
 
 def test_negative_weight():
-    r"""Instantiating a weight with a negative value (here -10)
-    should raise a ValueError"""
+    r"""Weight with a negative value (here -10)."""
     with pytest.raises(ValueError):
-        w1 = Weight.from_point(-10, Point.from_xyz(2, 3, 4))
+        _ = Weight.from_point(-10, Point.from_xyz(2, 3, 4))
 
 
 def test_surfacic_weight():

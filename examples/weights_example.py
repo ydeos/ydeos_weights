@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # coding: utf-8
 
-r"""Weights example use"""
+r"""Weights example use."""
 
 import logging
 from ydeos_weights.io import load_from_file, write_to_file

@@ -1,12 +1,12 @@
 # coding: utf-8
 
-r"""Helper functions for the examples"""
+r"""Helper functions for the examples."""
 
 import os
 
 
 def path_from_file(file_origin: str, relative_path: str) -> str:
-    r"""Builds an absolute path from a file using a relative path"""
+    r"""Builds an absolute path from a file using a relative path."""
     if not os.path.isfile(file_origin):
         msg = "The file_origin parameter refers to a path that does not exist"
         raise ValueError(msg)

@@ -13,7 +13,7 @@ ydeos_weights
 
 **ydeos_weights** is a weights model library in Python 3.
 
-A weight is approximated as a punctual mass present at a 3D point (Centre of Gravity of a object).
+A weight is approximated as a punctual mass present at a 3D point (Centre of Gravity of an object).
 
 A weight can be added to a WeightsCollection. The WeightsCollection can be handled as a single Weight using its total weight
 and the position of its centre of gravity.

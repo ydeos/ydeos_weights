@@ -1,6 +1,6 @@
 # coding: utf-8
 
-r"""Model for weights and collections of weights"""
+r"""Model for weights and collections of weights."""
 
 import abc
 import logging
@@ -17,24 +17,24 @@ logger = logging.getLogger(__name__)
 
 
 class AbstractWeight(object):
-    r"""Abstract class for weights"""
+    r"""Abstract class for weights."""
     __metaclass__ = abc.ABCMeta
 
     @property
     @abc.abstractmethod
     def weight(self):
-        r"""Return the weight"""
+        r"""Return the weight."""
         raise NotImplementedError
 
     @property
     @abc.abstractmethod
     def point(self):
-        r"""Return the point/centre of gravity"""
+        r"""Return the point/centre of gravity."""
         raise NotImplementedError
 
 
 class Weight(AbstractWeight):
-    r"""A weight with a position in 3D space"""
+    r"""A weight with a position in 3D space."""
     def __init__(self):
         self._weight = 0.
         self._point = None
@@ -42,7 +42,8 @@ class Weight(AbstractWeight):
 
     @classmethod
     def from_point(cls, weight: float, point: Point, name: str = ""):
-        r"""Construct a Weight from a weight and a point/position
+        r"""
+        Construct a Weight from a weight and a point/position.
 
         Parameters
         ----------
@@ -74,9 +75,11 @@ class Weight(AbstractWeight):
         return obj
 
     @classmethod
-    def from_line_linear(cls, linear_weight: float, linear_entity: TopoDS_Shape, name: str = ""):
-        r"""Construct a Weight from linear weight and length with its CG at
-        the CG of the linear_entity
+    def from_line_linear(cls,
+                         linear_weight: float,
+                         linear_entity: TopoDS_Shape,
+                         name: str = ""):
+        r"""Construct a Weight from linear weight and length.
 
         Parameters
         ----------
@@ -94,8 +97,11 @@ class Weight(AbstractWeight):
         return Weight.from_line_fixed(weight, linear_entity, name)
 
     @classmethod
-    def from_line_fixed(cls, weight: float, linear_entity: TopoDS_Shape, name: str = ""):
-        r"""Construct a Weight with its CG at the CG of the linear entity
+    def from_line_fixed(cls,
+                        weight: float,
+                        linear_entity: TopoDS_Shape,
+                        name: str = ""):
+        r"""Construct a Weight with its CG at the CG of the linear entity.
 
         Parameters
         ----------
@@ -126,9 +132,13 @@ class Weight(AbstractWeight):
         return obj
 
     @classmethod
-    def from_surface_surfacic(cls, surfacic_weight: float, surface: TopoDS_Shape, name: str = ""):
-        r"""Construct a Weight from surfacic weight and surface with its CG
-        at the CG of the surface
+    def from_surface_surfacic(cls,
+                              surfacic_weight: float,
+                              surface: TopoDS_Shape,
+                              name: str = ""):
+        r"""Construct a Weight from surfacic weight and surface.
+
+        The CG is at the CG of the surface.
 
         Parameters
         ----------
@@ -142,8 +152,11 @@ class Weight(AbstractWeight):
         return Weight.from_surface_fixed(weight, surface, name)
 
     @classmethod
-    def from_surface_fixed(cls, weight: float, surface: TopoDS_Shape, name: str = ""):
-        r"""Construct a Weight with its CG at the CG of the surface
+    def from_surface_fixed(cls,
+                           weight: float,
+                           surface: TopoDS_Shape,
+                           name: str = ""):
+        r"""Construct a Weight with its CG at the CG of the surface.
 
         Parameters
         ----------
@@ -162,9 +175,13 @@ class Weight(AbstractWeight):
         return obj
 
     @classmethod
-    def from_volume_volumic(cls, volumic_weight: float, volume: TopoDS_Shape, name: str):
-        r"""Construct a Weight from volumic weight and volume with its CG at
-        the CG of the volume
+    def from_volume_volumic(cls,
+                            volumic_weight: float,
+                            volume: TopoDS_Shape,
+                            name: str):
+        r"""Construct a Weight from volumic weight and volume.
+
+        The CG is at the CG of the volume.
 
         Parameters
         ----------
@@ -181,8 +198,12 @@ class Weight(AbstractWeight):
         return Weight.from_volume_fixed(weight, volume, name)
 
     @classmethod
-    def from_volume_fixed(cls, weight: float, volume: TopoDS_Shape, name: str = ""):
-        r"""Construct a Weight with its CG at the CG of the volume
+    def from_volume_fixed(cls,
+                          weight: float,
+                          volume: TopoDS_Shape,
+                          name: str = ""):
+        r"""
+        Construct a Weight with its CG at the CG of the volume.
 
         Parameters
         ----------
@@ -212,7 +233,7 @@ class Weight(AbstractWeight):
 
     @property
     def name(self) -> str:
-        r"""Name"""
+        r"""Name."""
         return self._name
 
     @name.setter
@@ -221,7 +242,7 @@ class Weight(AbstractWeight):
 
 
 class WeightsCollection(AbstractWeight):
-    r"""A collection of weights"""
+    r"""A collection of weights."""
 
     def __init__(self, weights: Optional[List[Weight]] = None):
         if weights is None:
@@ -239,7 +260,7 @@ class WeightsCollection(AbstractWeight):
             self._weights = weights
 
     def add_weight(self, weight: Weight) -> None:
-        r""" Add a Weight to the collection"""
+        r"""Add a Weight to the collection."""
         if not isinstance(weight, Weight):
             msg = "weight should be a Weight instance"
             logger.error(msg)
@@ -249,17 +270,17 @@ class WeightsCollection(AbstractWeight):
 
     @property
     def weights(self) -> List[Weight]:
-        r"""Return a list of the weights making up the WeightsCollection"""
+        r"""List of weights making up the WeightsCollection."""
         return self._weights
 
     @property
     def weight(self) -> float:
-        r"""Total weight of the collection"""
+        r"""Total weight of the collection."""
         return sum([w.weight for w in self._weights])
 
     @property
     def point(self) -> gp_Pnt:
-        r"""Centre of gravity as a gp_Pnt"""
+        r"""Centre of gravity as a gp_Pnt."""
         total_x, total_y, total_z = 0., 0., 0.
         for w in self._weights:
             total_x += w.weight * w.point.X()
@@ -276,8 +297,9 @@ def find_corrector(weights: Union[Weight, WeightsCollection],
                    target_y: float,
                    target_z: float,
                    override_z: Optional[Union[float, int]] = None) -> Weight:
-    r"""Find the Weight that has to be added to a Weights collection so that
-    the final collection complies with the specified parameters
+    r"""
+    Find the Weight that has to be added to a Weights collection so that
+    the final collection complies with the specified parameters.
 
     Parameters
     ----------
@@ -286,7 +308,8 @@ def find_corrector(weights: Union[Weight, WeightsCollection],
     target_x : The final CG X position of existing weight(s) + new weight
     target_y : The final CG Y position of existing weight(s) + new weight
     target_z : The final CG Z position of existing weight(s) + new weight
-    override_z : A forced position of Z for the new weight (a value of None gets the new weight in its natural position)
+    override_z : A forced position of Z for the new weight
+                 (a value of None gets the new weight in its natural position)
 
     Returns
     -------
