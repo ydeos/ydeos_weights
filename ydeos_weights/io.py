@@ -37,24 +37,29 @@ def load_from_file(filename: str, convert_position_to_meters: Optional[bool] = F
 
         # data
         for line in lines[1:]:
-            parts = (line.strip()).split(",")
-            w = float(parts[0])
-            x = float(parts[1])
-            y = float(parts[2])
-            z = float(parts[3])
-            try:
-                name = parts[4].strip()
-            except IndexError:
-                name = ""
-            kwargs_weight = {weight_unit: w}
+            if "{{" not in line:
+                # The line is a plain line (i.e. not a templated line)
+                parts = (line.strip()).split(",")
+                w = float(parts[0])
+                x = float(parts[1])
+                y = float(parts[2])
+                z = float(parts[3])
+                try:
+                    name = parts[4].strip()
+                except IndexError:
+                    name = ""
+                kwargs_weight = {weight_unit: w}
 
-            if convert_position_to_meters is True:
-                x = m(**{position_unit: x})
-                y = m(**{position_unit: y})
-                z = m(**{position_unit: z})
+                if convert_position_to_meters is True:
+                    x = m(**{position_unit: x})
+                    y = m(**{position_unit: y})
+                    z = m(**{position_unit: z})
 
-            weight = Weight.from_point(kg(**kwargs_weight), Point.from_xyz(x, y, z), name)
-            weights.add_weight(weight)
+                weight = Weight.from_point(kg(**kwargs_weight), Point.from_xyz(x, y, z), name)
+                weights.add_weight(weight)
+            else:
+                # This is a templated line, do not use it to compute the weights collection
+                pass
 
     return weights
 
