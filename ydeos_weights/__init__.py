@@ -5,7 +5,7 @@ r"""ydeos_weights __init__.py."""
 __project_name__ = "ydeos_weights"
 __description__ = "Weights model"
 
-__version__ = "2020.11.27"
+__version__ = "2020.11.28"
 __author__ = "Guillaume Florent"
 __author_email__ = "florentsailing@gmail.com"
 __license__ = 'GPL v3'
