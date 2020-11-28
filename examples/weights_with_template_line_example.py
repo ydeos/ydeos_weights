@@ -12,8 +12,8 @@ a weights file before applying a dict to the templated weights file.
 from ydeos_weights.io import load_from_file
 
 # convert position to meters
-weights = load_from_file("./example_weights_files/weights_new_with_templated_line.csv",
-                         convert_position_to_meters=True)
+weights, _, _ = load_from_file("./example_weights_files/weights_new_with_templated_line.csv",
+                               convert_position_to_meters=True)
 
 for weight in weights.weights:
     print(f"{weight.name} : {weight.weight} [kg] @ {weight.point.x}, {weight.point.y}, {weight.point.z}")

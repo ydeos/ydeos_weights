@@ -2,13 +2,14 @@
 
 r"""Read and write for weights collections."""
 
-from typing import Optional
+from typing import Optional, Tuple
 from aocutils.geom.point import Point
 from ydeos_units.units import kg, m
 from ydeos_weights.weights import WeightsCollection, Weight
 
 
-def load_from_file(filename: str, convert_position_to_meters: Optional[bool] = False) -> WeightsCollection:
+def load_from_file(filename: str,
+                   convert_position_to_meters: Optional[bool] = False) -> Tuple[WeightsCollection, str, str]:
     r"""Load the weights collection from a weights file.
 
     Parameters
@@ -22,6 +23,10 @@ def load_from_file(filename: str, convert_position_to_meters: Optional[bool] = F
         ...
         weight_n, x_coordinate_n, y_coordinate_n, z_coordinate_n, name
     convert_position_to_meters : should the XYZ coordinates be converted from position_unit to meters
+
+    Returns
+    -------
+    weights collection, weight_unit, position_unit
 
     """
     weights = WeightsCollection()
@@ -61,7 +66,7 @@ def load_from_file(filename: str, convert_position_to_meters: Optional[bool] = F
                 # This is a templated line, do not use it to compute the weights collection
                 pass
 
-    return weights
+    return weights, weight_unit, "m" if convert_position_to_meters is True else position_unit
 
 
 def write_to_file(filename: str,
