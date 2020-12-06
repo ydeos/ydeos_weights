@@ -8,8 +8,8 @@ from ydeos_units.units import kg, m
 from ydeos_weights.weights import WeightsCollection, Weight
 
 
-def load_from_file(filename: str,
-                   convert_position_to_meters: Optional[bool] = False) -> Tuple[WeightsCollection, str, str]:
+def load_weights_from_file(filename: str,
+                           convert_position_to_meters: Optional[bool] = False) -> Tuple[WeightsCollection, str, str]:
     r"""Load the weights collection from a weights file.
 
     Parameters

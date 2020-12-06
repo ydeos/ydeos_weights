@@ -7,7 +7,7 @@ import pytest
 from OCC.Core.BRepPrimAPI import BRepPrimAPI_MakeBox
 from aocutils.geom.point import Point
 from ydeos_weights.weights import Weight, WeightsCollection, find_corrector
-from ydeos_weights.io import load_from_file
+from ydeos_weights.io import load_weights_from_file
 from _helpers import path_from_file
 
 
@@ -52,7 +52,7 @@ def test_cg():
 
 def test_file():
     data_file_path = path_from_file(__file__, "test_weights_files/weights_new.csv")
-    weights, w_unit, p_unit = load_from_file(data_file_path, convert_position_to_meters=True)
+    weights, w_unit, p_unit = load_weights_from_file(data_file_path, convert_position_to_meters=True)
     assert weights.weight == 5  # 2500g + 2500g converted  to kilos
     assert weights.point.X() == 0.550  # meters !!
     assert weights.point.Y() == 0.0  # meters !!
@@ -60,7 +60,7 @@ def test_file():
     assert w_unit == "g"
     assert p_unit == "m"
 
-    weights, w_unit, p_unit = load_from_file(data_file_path, convert_position_to_meters=False)
+    weights, w_unit, p_unit = load_weights_from_file(data_file_path, convert_position_to_meters=False)
     assert weights.weight == 5  # 2500g + 2500g converted  to kilos
     assert weights.point.X() == 550.  # not converted to meters
     assert weights.point.Y() == 0.0  # not converted to meters
