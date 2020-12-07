@@ -1,0 +1,6 @@
+# mass_unit, position_unit
+# mass, x, y, z, name
+g, mm
+900, 500, 0, 0, Coque
+{{ballast_mass}}, 600, 0., -400.00, Ballast
+35, 50, 0, -100, Safran

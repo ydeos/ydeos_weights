@@ -130,5 +130,7 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
-/examples/weights_m.csv
-/examples/weights_mm.csv
+
+# Examples results
+/examples/masses_g_mm.csv
+/examples/masses_kg_m.csv
