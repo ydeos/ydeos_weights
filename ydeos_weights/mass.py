@@ -55,7 +55,11 @@ class Mass(AbstractMass):
         self._name = ""
 
     @classmethod
-    def from_position_m(cls, mass_kg: float, cg_m: PositionM, name: str = ""):
+    def from_position_m(cls,
+                        mass_kg: float,
+                        cg_m: PositionM,
+                        name: str = "",
+                        allow_negative_mass: bool = True):
         r"""
         Construct a Mass from a mass [kg] and a point/position [m].
 
@@ -64,6 +68,7 @@ class Mass(AbstractMass):
         mass_kg : mass in kilograms.
         cg_m : CG 3D position in meters [m]
         name : name given to the mass
+        allow_negative_mass : is a mass with negative sign allowed ?
 
         """
         if not isinstance(mass_kg, (float, int)):
@@ -71,10 +76,11 @@ class Mass(AbstractMass):
             logger.error(msg)
             raise ValueError(msg)
 
-        if mass_kg < 0.:
-            msg = "mass_kg should be positive"
-            logger.error(msg)
-            raise ValueError(msg)
+        if allow_negative_mass is False:
+            if mass_kg < 0.:
+                msg = "mass_kg should be positive"
+                logger.error(msg)
+                raise ValueError(msg)
 
         if not isinstance(cg_m, PositionM):
             msg = "point_m should be a PositionM instance"
@@ -348,7 +354,8 @@ def find_corrector(masses: Union[Mass, MassesCollection],
                    target_x_m: float,
                    target_y_m: float,
                    target_z_m: float,
-                   override_z: Optional[Union[float, int]] = None) -> Mass:
+                   override_z: Optional[Union[float, int]] = None,
+                   allow_negative_mass_corrector: bool = True) -> Mass:
     r"""
     Find the Mass that has to be added to a Masses collection so that
     the final collection complies with the specified parameters.
@@ -362,17 +369,19 @@ def find_corrector(masses: Union[Mass, MassesCollection],
     target_z_m : The final CG Z position [m] of existing mass(s) + new mass
     override_z : A forced position of Z [m] for the new mass
                  (a value of None gets the new mass in its natural position)
+    allow_negative_mass_corrector : is it okay to have a negative mass corrector?
 
     Returns
     -------
     Mass : the mass required to reach the specified mass, x, y and z
 
     """
-    if masses.mass_kg > target_mass_kg:
-        msg = f"masses total ({masses.mass_kg:.6f}) should not exceed " \
-              f"target_mass ({target_mass_kg:.6f})"
-        logger.error(msg)
-        raise ValueError(msg)
+    if allow_negative_mass_corrector is False:
+        if masses.mass_kg > target_mass_kg:
+            msg = f"masses total ({masses.mass_kg:.6f}) should not exceed " \
+                  f"target_mass ({target_mass_kg:.6f})"
+            logger.error(msg)
+            raise ValueError(msg)
     corrector_mass_kg = target_mass_kg - masses.mass_kg
     x = ((target_x_m * target_mass_kg) - (masses.mass_kg * masses.cg_m.x)) / corrector_mass_kg
     y = ((target_y_m * target_mass_kg) - (masses.mass_kg * masses.cg_m.y)) / corrector_mass_kg

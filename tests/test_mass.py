@@ -27,7 +27,7 @@ def test_total_mass():
 def test_negative_weight():
     r"""Weight with a negative value (here -10)."""
     with pytest.raises(ValueError):
-        _ = Mass.from_position_m(-10, PositionM(2, 3, 4))
+        _ = Mass.from_position_m(-10, PositionM(2, 3, 4), allow_negative_mass=False)
 
 
 def test_surfacic_weight():
